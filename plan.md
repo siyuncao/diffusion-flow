@@ -11,6 +11,7 @@ turns a fixed-pool BO loop into an actual discovery engine.
 
 
 ---
+```
 flow-proposer/
 ├── notes.md
 ├── README.md
@@ -26,7 +27,7 @@ flow-proposer/
 │   └── 03_benchmark.py
 └── tests/
     └── test_flow.py
-    
+```
 ---
 
 ## [Flow matching vs diffusion](https://harshm121.medium.com/flow-matching-vs-diffusion-79578a16c510)
