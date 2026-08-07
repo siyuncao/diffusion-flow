@@ -44,16 +44,7 @@ Flow matching wants **continuous** space. Alloy composition vectors are the
 right one: continuous, low-dimensional, physically meaningful, and already supported by
 `AlloySpace`.
 
-- [ ] Pick ~12 candidate elements. Write down **why** — the constraints that matter
-      (cost, density, toxicity, availability) and the HEA formability rules
-      (atomic size mismatch δ, VEC, mixing enthalpy).
-- [ ] Reference: Wikipedia "High-entropy alloys" for the design rules; `elements.py`,
-      `features.py` (`size_mismatch_delta`, `valence_electron_concentration`) and
-      `space.py` for how they're already implemented here.
-- [ ] Record the element set and the reasoning in `notes.md`. **This is the chemistry
-      judgment the project rests on — it does not get outsourced.**
-
-**Done when:** a justified element list exists, and I can defend each inclusion/exclusion.
+Open notes.md and list ~12 elements with one line of "why" each.
 
 ---
 
