@@ -11,17 +11,11 @@ turns a fixed-pool BO loop into an actual discovery engine.
 
 ---
 
-## Flow matching vs diffusion (one paragraph, for the README later)
+## [Flow matching vs diffusion](https://harshm121.medium.com/flow-matching-vs-diffusion-79578a16c510)
 
-Both learn noise → data along a path. **Diffusion (DDPM)** is discrete-time and stochastic:
-add Gaussian noise over ~1000 steps, train a net to predict the noise, walk backwards. Math
-descends from the VAE's ELBO. **Flow matching** is continuous-time and deterministic: define
-a straight path `x_t = (1-t)·noise + t·data`, train a net to predict the *velocity*, sample by
-following the vector field (an ODE). No ELBO, no variational bound — just regression.
+- **Diffusion Models** gradually add noise to data until it becomes pure noise, then learn to reverse this process. Think of it as slowly dissolving a photograph in acid until it becomes a random blur, then learning how to reconstruct the photograph from the blur.
 
-Diffusion asks *"what noise was added here?"*; flow matching asks *"which way do I move now?"*
-Same destination, simpler bookkeeping. Flow matching is what modern large models (SD3, Flux)
-use, because straight paths mean fewer sampling steps.
+- **Flow Matching** creates a continuous path (or flow) between noise and data distributions. Think of it as defining a smooth transportation plan that morphs noise into structured data, similar to watching a time-lapse of clay being sculpted from a random blob into a detailed statue.
 
 ---
 
