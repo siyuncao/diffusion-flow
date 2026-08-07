@@ -9,6 +9,24 @@ turns a fixed-pool BO loop into an actual discovery engine.
 
 **Tags:** 🧠 = derive/write by hand, must be able to justify. 🤖 = vibe code, already covered.
 
+
+---
+flow-proposer/
+├── notes.md
+├── README.md
+├── .gitignore
+├── flowprop/
+│   ├── flow.py            # loss + model + Euler sampler
+│   ├── simplex.py         # 🧠 the real design decision
+│   ├── compositions.py    # AlloySpace sampling
+│   └── loop.py            # generate → featurize → GP+EI → refit
+├── experiments/
+│   ├── 01_mnist.py
+│   ├── 02_compositions.py
+│   └── 03_benchmark.py
+└── tests/
+    └── test_flow.py
+    
 ---
 
 ## [Flow matching vs diffusion](https://harshm121.medium.com/flow-matching-vs-diffusion-79578a16c510)
