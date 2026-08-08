@@ -59,6 +59,8 @@ Open notes.md and list ~12 elements with one line of "why" each.
 
 why use MLP? Since at sampling time we only have x_t and don't know the velocity x₁ - x₀, we need a neural network to learn to predict it. Thus we used MLP in phase 1.
 
+why use Euler? Since we start from noise and only know the velocity at the current point, we take one small step in that direction, ask the model again, and repeat — thus 100 steps of x = x + v*dt gets us from noise to a digit. That's Euler.
+
 ---
 
 ## Phase 2 — Flow matching on compositions 🧠
