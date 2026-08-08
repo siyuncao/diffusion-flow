@@ -32,4 +32,6 @@ for epoch in range(5): # go through the entire dataset for 5 times
 - Originally: the loss of the last batch — that batch's 32 images averaged, but only one batch out of ~1900.
 - Now: all ~1900 batches averaged.
 
-because batch is random (after shuffled), so the last batch has no correlation to the previous batch, rather, it's randomly picked so the number might be high or low
+because batch is random (after shuffled), so the last batch has no correlation to the previous batch, rather, it's randomly picked so the number might be high or low. now averaging all makes sure the loss keeps going down rather than bounces around
+
+
