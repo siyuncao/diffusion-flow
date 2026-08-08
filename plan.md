@@ -50,22 +50,14 @@ Open notes.md and list ~12 elements with one line of "why" each.
 
 ## Phase 1 — Flow matching on MNIST 🧠
 
-Learn the mechanism somewhere failure is visible.
+1. Load MNIST, flatten to 784.
+2. Write the MLP: input 785 (image + t), output 784.
+3. Write the 4-line loss.
+4. Train loop. Watch loss drop.
+5. Write the Euler sampler: start from noise, step 100 times.
+6. Plot samples.
 
-- [ ] **Derive the loss by hand.** Sample `t ~ U(0,1)`, interpolate
-      `x_t = (1-t)·noise + t·data`, target velocity `v = data - noise`, loss = MSE against
-      the net's prediction. Four lines — but be able to explain *why* the target is
-      `data - noise`.
-- [ ] Model: small UNet (or MLP first, to prove the loop works).
-- [ ] Sampler 🤖: Euler integration from noise, `x ← x + v·dt`.
-
-**Verification gate:**
-- loss decreases
-- samples at `t=1` are recognisable digits
-- fixed seed → identical sample (reproducibility)
-
-**Done when:** digits look right, *and* I can answer: why is the path straight? what changes
-with 10 vs 100 sampling steps? why is there no ELBO here, unlike the VAE?
+why use MLP? Since at sampling time we only have x_t and don't know the velocity x₁ - x₀, we need a neural network to learn to predict it. Thus we used MLP in phase 1.
 
 ---
 
