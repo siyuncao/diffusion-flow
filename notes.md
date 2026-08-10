@@ -57,6 +57,7 @@ optimizer.step()          # update the weights
 The model learned the shape of the answer but not the rule. It knows compositions look like twelve smallish numbers near 0.08 that roughly sum to 1 — that's why sums land in 0.86–1.06 and the worst negative is only −0.17. It has genuinely absorbed the distribution.
 
 - Negative: an element with fraction −0.17 means "minus 17% chromium." There's no such thing. That's why the row is thrown out — not because it's a bad alloy, but because it isn't an alloy.
+- load part for training, sampler part for generating new
 
 when there are negatives appear:
 - why not change the loss part: A loss penalty makes violations rarer, not impossible. You'd go 62% → maybe 90%, and your gate still says 100% error. Soft pressure can't produce a hard guarantee.
