@@ -27,29 +27,38 @@ test_data = datasets.MNIST(
 train_loader = DataLoader(train_data, batch_size=128, shuffle=True)
 test_loader = DataLoader(test_data, batch_size=128, shuffle=False)
 
-# 2. Conv model
-# Why a class instead of nn.Sequential: Sequential takes one input, but we
-# need two (x_t and t). A class lets forward() accept both.
-class ConvNet(nn.Module):
+# 2. UNet
+# Flat conv stack gave each output pixel only a 9x9 view — good local strokes,
+# no global coherence. Downsampling means the middle layers see the whole
+# image; skip connections carry fine detail back to the output.
+def block(cin, cout):
+    return nn.Sequential(
+        nn.Conv2d(cin, cout, 3, padding=1), nn.ReLU(),
+        nn.Conv2d(cout, cout, 3, padding=1), nn.ReLU(),
+    )
+
+class UNet(nn.Module):
     def __init__(self):
         super().__init__()
-        self.net = nn.Sequential(
-            # Conv2d looks at 3x3 patches, so neighbouring pixels are related
-            # by construction — the MLP had to learn that from scratch and couldn't.
-            # padding=1 keeps the image 28x28 throughout.
-            nn.Conv2d(2, 64, 3, padding=1), nn.ReLU(),   # 2 in-channels: image + t
-            nn.Conv2d(64, 64, 3, padding=1), nn.ReLU(),
-            nn.Conv2d(64, 64, 3, padding=1), nn.ReLU(),
-            nn.Conv2d(64, 1, 3, padding=1),              # 1 out-channel: velocity
-        )
+        self.down1 = block(2, 64)      # 28x28
+        self.down2 = block(64, 128)    # 14x14
+        self.mid   = block(128, 256)   # 7x7  — sees the whole image
+        self.up2   = block(256 + 128, 128)
+        self.up1   = block(128 + 64, 64)
+        self.out   = nn.Conv2d(64, 1, 1)
+        self.pool  = nn.MaxPool2d(2)
+        self.up    = nn.Upsample(scale_factor=2, mode='nearest')
 
     def forward(self, x, t):
-        # t arrives as (batch,1,1,1); expand to a constant 28x28 grid so it can be
-        # stacked as a second channel — this is how every pixel learns the time.
         t = t.expand(-1, 1, 28, 28)
-        return self.net(torch.cat([x, t], dim=1))
+        d1 = self.down1(torch.cat([x, t], dim=1))   # 28
+        d2 = self.down2(self.pool(d1))              # 14
+        m  = self.mid(self.pool(d2))                # 7
+        u2 = self.up2(torch.cat([self.up(m), d2], dim=1))    # 14
+        u1 = self.up1(torch.cat([self.up(u2), d1], dim=1))   # 28
+        return self.out(u1)
 
-model = ConvNet().to(device)   # .to(device) puts weights on the GPU
+model = UNet().to(device)
 
 # 3. Loss
 criterion = nn.MSELoss()
@@ -58,7 +67,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 
 # 4. Train
-for epoch in range(10):
+for epoch in range(20):
     total = 0
     for x, _ in train_loader:
         x = x.to(device)
