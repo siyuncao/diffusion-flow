@@ -61,3 +61,7 @@ The model learned the shape of the answer but not the rule. It knows composition
 when there are negatives appear:
 - why not change the loss part: A loss penalty makes violations rarer, not impossible. You'd go 62% → maybe 90%, and your gate still says 100% error. Soft pressure can't produce a hard guarantee.
 - instead, fix the sampler: whatever comes out of the Euler step, clip negatives to 0, divide by the row sum. Now the row is non-negative and sums to 1, by construction, every time.
+```python
+x = x.clamp(min=0)
+x = x / x.sum(dim=1, keepdim=True)
+```
