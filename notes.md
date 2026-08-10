@@ -35,6 +35,16 @@ because batch is random (after shuffled), so the last batch has no correlation t
 | shape | flat vector in, flat vector out | image in, image out | image in, image out, via a bottleneck |
 | suits | tabular / unordered features | images, local patterns | images where output must match input pixel-for-pixel (generation, segmentation) |
 
+### MLP
+<img width="429" height="110" alt="Screenshot 2026-08-10 at 16 04 17" src="https://github.com/user-attachments/assets/30adc572-0248-4891-a16f-9880498c37a3" />
+
+### CNN
+<img width="423" height="109" alt="Screenshot 2026-08-10 at 16 04 40" src="https://github.com/user-attachments/assets/c58328a6-8a21-4f88-ad58-c161a5095efc" />
+
+### UNet
+<img width="943" height="235" alt="Screenshot 2026-08-10 at 16 05 08" src="https://github.com/user-attachments/assets/5f79e034-6c59-41b6-a1c4-c68a8f64bd19" />
+
+
 ---
 ## Phase 2
 default things in every PyTorch training loop
