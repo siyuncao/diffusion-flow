@@ -34,4 +34,13 @@ for epoch in range(5): # go through the entire dataset for 5 times
 
 because batch is random (after shuffled), so the last batch has no correlation to the previous batch, rather, it's randomly picked so the number might be high or low. now averaging all makes sure the loss keeps going down rather than bounces around
 
-
+---
+## Phase 2
+default things in every PyTorch training loop
+```python
+optimizer.zero_grad()     # clear last step's gradients
+outputs = model(inputs)   # forward: predict
+loss = criterion(outputs, targets)   # measure error
+loss.backward()           # backward: compute gradients
+optimizer.step()          # update the weights
+```
