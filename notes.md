@@ -34,6 +34,17 @@ for epoch in range(5): # go through the entire dataset for 5 times
 
 because batch is random (after shuffled), so the last batch has no correlation to the previous batch, rather, it's randomly picked so the number might be high or low. now averaging all makes sure the loss keeps going down rather than bounces around
 
+### Architectures compared
+
+|  | MLP | CNN | UNet |
+|---|---|---|---|
+| building block | `nn.Linear` | `nn.Conv2d` | `nn.Conv2d` + pooling + upsampling |
+| connectivity | every input to every neuron | small sliding window | sliding window at several scales |
+| weights | unique per position | shared across positions | shared, plus skip connections |
+| assumes | nothing about input order | neighbours are related | neighbours related *and* structure exists at multiple scales |
+| shape | flat vector in, flat vector out | image in, image out | image in, image out, via a bottleneck |
+| suits | tabular / unordered features | images, local patterns | images where output must match input pixel-for-pixel (generation, segmentation) |
+
 ---
 ## Phase 2
 default things in every PyTorch training loop
