@@ -44,3 +44,12 @@ loss = criterion(outputs, targets)   # measure error
 loss.backward()           # backward: compute gradients
 optimizer.step()          # update the weights
 ```
+
+**Result — verification gate FAILS.**
+
+| check | value |
+|---|---|
+| min value | −0.168 |
+| row sums (sample) | 0.86 – 1.06 |
+| fraction of entries negative | 4.5% |
+| **fraction of rows valid** | **62%** |
