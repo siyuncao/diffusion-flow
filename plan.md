@@ -72,7 +72,7 @@ why use Euler? Since we start from noise and only know the velocity at the curre
 
 Same code, chemical data.
 
-- [ ] Training set: sample valid compositions from `AlloySpace`.
+- [ ] Training set: sample valid compositions directly
 - [ ] **The core design problem: the simplex constraint.** Compositions must be
       non-negative and sum to 1. Naive flow matching will happily emit
       `[-0.3, 0.8, 0.5]` — chemically meaningless. Pick one and justify it:
@@ -85,6 +85,7 @@ Same code, chemical data.
 **Verification gate:**
 - 100% of generated samples are valid compositions (non-negative, sum to 1)
 - element-frequency histogram of generated ≈ training distribution
+- std of generated ≈ std of training.
 
 ---
 
