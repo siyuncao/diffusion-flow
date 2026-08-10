@@ -9,6 +9,11 @@ turns a fixed-pool BO loop into an actual discovery engine.
 
 **Tags:** 🧠 = derive/write by hand, must be able to justify. 🤖 = vibe code, already covered.
 
+- Phase 0: Pick ~12 elements, justify them in notes.md.
+- Phase 1: Flow matching on MNIST. Derive the loss by hand, train an MLP, sample with Euler. Failure is visible here.
+- Phase 2: Same code, alloy compositions. Core problem: compositions must be non-negative and sum to 1 — pick a fix and justify it.
+- Phase 3: Plug into your BO loop. Generate candidates → score with GP+EI → measure → refit. Benchmark against the fixed pool, ~20 seeds. Expect the null.
+- Phase 4: Conditional generation. Stretch.
 
 ---
 ```
