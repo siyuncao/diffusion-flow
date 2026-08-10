@@ -45,7 +45,7 @@ loss.backward()           # backward: compute gradients
 optimizer.step()          # update the weights
 ```
 
-**Result — verification gate FAILS.**
+**1st Result — verification gate FAILS.**
 
 | check | value |
 |---|---|
@@ -65,3 +65,14 @@ when there are negatives appear:
 x = x.clamp(min=0)
 x = x / x.sum(dim=1, keepdim=True)
 ```
+
+
+**Simplex fix: project once, after the Euler loop.**
+
+**2nd Result (final)**
+
+| projection | valid rows | generated std | training std |
+|---|---|---|---|
+| none | 62% | — | 0.048 |
+| every Euler step | 100% | 0.004 | 0.048 |
+| once at the end | 100% | 0.045 | 0.048 |
