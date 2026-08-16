@@ -15,17 +15,7 @@ train_data = datasets.MNIST(
     transforms.Normalize((0.5,), (0.5,))
 ]))
 
-test_data = datasets.MNIST(
-    root='./data',
-    train=False,
-    download=True,
-    transform=transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-]))
-
 train_loader = DataLoader(train_data, batch_size=128, shuffle=True)
-test_loader = DataLoader(test_data, batch_size=128, shuffle=False)
 
 # 2. UNet
 # Flat conv stack gave each output pixel only a 9x9 view — good local strokes,
