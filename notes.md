@@ -38,7 +38,7 @@ because batch is random (after shuffled), so the last batch has no correlation t
 | building block | `nn.Linear` | `nn.Conv2d` | `nn.Conv2d` + pooling + upsampling |
 | connectivity | every input to every neuron | small sliding window | sliding window at several scales |
 | weights | unique per position | shared across positions | shared, plus skip connections |
-| assumes | nothing about input order | neighbours are related | neighbours related *and* structure exists at multiple scales |
+| **assumes** | **nothing → must learn "pixel 5 and 6 are adjacent" from data** | **neighbours are related → gets locality for free** | **structure at multiple scales → gets local and global for free** |
 | shape | flat vector in, flat vector out | image in, image out | image in, image out, via a bottleneck |
 | suits | tabular / unordered features | images, local patterns | images where output must match input pixel-for-pixel (generation, segmentation) |
 
