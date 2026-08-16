@@ -51,6 +51,13 @@ because batch is random (after shuffled), so the last batch has no correlation t
 ### UNet
 <img width="943" height="235" alt="Screenshot 2026-08-10 at 16 05 08" src="https://github.com/user-attachments/assets/5f79e034-6c59-41b6-a1c4-c68a8f64bd19" />
 
+### UNet notes
+elements: down path, bottleneck, up path
+
+- Resolution = height × width. 28×28, then 14×14, then 7×7. How many positions.
+- Channels = how many numbers stored at each position. Starts at 2 (image + t), grows to 64, 128, 256. How many features per position.
+
+(Pool changes resolution; helper changes channels)
 
 ---
 ## Phase 2
