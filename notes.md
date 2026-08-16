@@ -2,6 +2,13 @@
 
 
 ## Phase 1
+### Data loader: transform explained
+```python
+transform=transforms.Compose([ # Compose is added first in order to chain the latter (ToTensor, Normalize) together in sequence
+transforms.ToTensor(), # The MNIST file on disk stores 784 bytes per digit.
+                       # ToTensor() reads those bytes into a PyTorch tensor and divides by 255, mapping everything into [0, 1].
+transforms.Normalize((0.5,), (0.5,)) # maps [0, 1] → [-1, 1]
+```
 
 why print out the average loss?
 
