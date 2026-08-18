@@ -128,3 +128,15 @@ x = x / x.sum(dim=1, keepdim=True)
 ---
 ## Diffusion - Phase 0 (noise)
 
+### noise: flow matching vs diffusion
+
+|  | flow matching | diffusion |
+|---|---|---|
+| how noise mixes in | straight line, `(1-t)·noise + t·data` | 1000 tiny additions |
+| the weights | `t` and `1-t` | `sqrt(alpha_bar)` and `sqrt(1-alpha_bar)` |
+| where the weights come from | you pick the formula: a straight line | compounding 1000 tiny steps |
+| `t` | float, 0 to 1 | integer, 0 to 999 |
+
+Same journey. One drawn as a line, one built from small steps.
+
+`alpha_bar[t]` = how much of the original image is left after t noising steps. It's `cumprod(1 - betas)`, so it starts near 1 and decays toward 0 — slowly at first, then fast.
