@@ -140,3 +140,18 @@ x = x / x.sum(dim=1, keepdim=True)
 Same journey. One drawn as a line, one built from small steps.
 
 `alpha_bar[t]` = how much of the original image is left after t noising steps. It's `cumprod(1 - betas)`, so it starts near 1 and decays toward 0 — slowly at first, then fast.
+
+---
+## Diffusion - Phase 1
+
+### Samplers: Euler vs DDPM
+
+|  | Euler (flow matching) | DDPM (diffusion) |
+|---|---|---|
+| direction | t: 0 → 1 | t: T → 0 |
+| model predicts | velocity (which way to move, since training targeted data - noise) | noise (how much noise is in the image, so the sampler can remove it) |
+| update | `x + v*dt` | subtract predicted noise, rescale |
+| extra noise per step | none (the path is deterministic) | added back every step (it mirrors the forward process (data → noise), which added noise at every step, so the reverse (noise → data) must too)|
+| deterministic (Same input always gives the same output)? | yes (because it adds nothing random) | no (injects randomness 1000 times) |
+| steps | 100 (the path is straight, so big steps are fine) | 1000 (built as 1000 tiny noise-additions, so it undoes them in 1000 tiny steps)|
+
