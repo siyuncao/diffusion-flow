@@ -42,14 +42,17 @@ because batch is random (after shuffled), so the last batch has no correlation t
 | shape | flat vector in, flat vector out | image in, image out | image in, image out, via a bottleneck |
 | suits | tabular / unordered features | images, local patterns | images where output must match input pixel-for-pixel (generation, segmentation) |
 
-### MLP
-<img width="429" height="110" alt="Screenshot 2026-08-10 at 16 04 17" src="https://github.com/user-attachments/assets/30adc572-0248-4891-a16f-9880498c37a3" />
+**MLP**
 
-### CNN
-<img width="423" height="109" alt="Screenshot 2026-08-10 at 16 04 40" src="https://github.com/user-attachments/assets/c58328a6-8a21-4f88-ad58-c161a5095efc" />
+<img width="100%" alt="MLP architecture" src="https://github.com/user-attachments/assets/30adc572-0248-4891-a16f-9880498c37a3" />
 
-### UNet
-<img width="943" height="235" alt="Screenshot 2026-08-10 at 16 05 08" src="https://github.com/user-attachments/assets/5f79e034-6c59-41b6-a1c4-c68a8f64bd19" />
+**CNN**
+
+<img width="100%" alt="CNN architecture" src="https://github.com/user-attachments/assets/c58328a6-8a21-4f88-ad58-c161a5095efc" />
+
+**UNet**
+
+<img width="100%" alt="UNet architecture" src="https://github.com/user-attachments/assets/5f79e034-6c59-41b6-a1c4-c68a8f64bd19" />
 
 ### UNet notes
 elements: down path, bottleneck, up path
@@ -160,16 +163,20 @@ Same journey. One drawn as a line, one built from small steps.
 
 ### compare output images from VAE, GAN, flow matching, diffusion
 **VAE**
-<img width="1158" height="117" alt="Screenshot 2026-08-18 at 19 19 48" src="https://github.com/user-attachments/assets/e1d96946-16fa-4330-8347-a7d7eb486834" />
+
+<img width="100%" alt="VAE samples" src="https://github.com/user-attachments/assets/e1d96946-16fa-4330-8347-a7d7eb486834" />
 
 **GAN**
-<img width="1237" height="139" alt="Screenshot 2026-08-18 at 19 20 32" src="https://github.com/user-attachments/assets/7c1e1487-17c5-40f7-8d85-6e607195c9e2" />
+
+<img width="100%" alt="GAN samples" src="https://github.com/user-attachments/assets/7c1e1487-17c5-40f7-8d85-6e607195c9e2" />
 
 **flow matching**
-<img width="613" height="72" alt="Screenshot 2026-08-18 at 19 20 58" src="https://github.com/user-attachments/assets/75af47f4-82bb-4c16-a9d8-05ec7afeff53" />
+
+<img width="100%" alt="Flow matching samples" src="https://github.com/user-attachments/assets/75af47f4-82bb-4c16-a9d8-05ec7afeff53" />
 
 **diffusion**
-<img width="938" height="107" alt="Screenshot 2026-08-18 at 19 21 12" src="https://github.com/user-attachments/assets/9a00ebc6-b3fe-4f07-9532-7bde5507bfcd" />
+
+<img width="100%" alt="Diffusion samples" src="https://github.com/user-attachments/assets/9a00ebc6-b3fe-4f07-9532-7bde5507bfcd" />
 
 | | starts from | task |
 |---|---|---|
