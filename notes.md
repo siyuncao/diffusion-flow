@@ -155,3 +155,25 @@ Same journey. One drawn as a line, one built from small steps.
 | deterministic (Same input always gives the same output)? | yes (because it adds nothing random) | no (injects randomness 1000 times) |
 | steps | 100 (the path is straight, so big steps are fine) | 1000 (built as 1000 tiny noise-additions, so it undoes them in 1000 tiny steps)|
 
+---
+## Diffusion - Phase 2
+
+### compare output images from VAE, GAN, flow matching, diffusion
+**VAE**
+<img width="1158" height="117" alt="Screenshot 2026-08-18 at 19 19 48" src="https://github.com/user-attachments/assets/e1d96946-16fa-4330-8347-a7d7eb486834" />
+
+**GAN**
+<img width="1237" height="139" alt="Screenshot 2026-08-18 at 19 20 32" src="https://github.com/user-attachments/assets/7c1e1487-17c5-40f7-8d85-6e607195c9e2" />
+
+**flow matching**
+<img width="613" height="72" alt="Screenshot 2026-08-18 at 19 20 58" src="https://github.com/user-attachments/assets/75af47f4-82bb-4c16-a9d8-05ec7afeff53" />
+
+**diffusion**
+<img width="938" height="107" alt="Screenshot 2026-08-18 at 19 21 12" src="https://github.com/user-attachments/assets/9a00ebc6-b3fe-4f07-9532-7bde5507bfcd" />
+
+| | starts from | task |
+|---|---|---|
+| VAE (my run) | a real digit | reconstruct (sees the answer, so it's not a fair game) |
+| GAN | random vector | generate from scratch |
+| flow matching | noise | generate from scratch |
+| diffusion | noise | generate from scratch |
