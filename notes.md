@@ -59,6 +59,28 @@ elements: down path, bottleneck, up path
 
 (Pool changes resolution; helper changes channels)
 
+### what's noise
+
+noise is composed of random numbers with the same shape as x. 
+
+- at training: `x_t = (1-t)*noise + t*data` blends the training data and noise. `t` represents how far along the path from noise to data, 0 for pure noise and 1 for pure data. And `t` is random for each batch
+- at sampling: this provides somewhere to start, and the trained model steps it all the way to a digit. No learning happens here (weights are frozen). `t` walks 0 → 1 in 100 equal steps (`dt = 1/100`)
+
+### why noise at all:
+
+you want *new* digits. A model that only maps digits to digits could never produce one that doesn't already exist. **Randomness is the
+source of novelty**, and it's why every sample comes out different (same seed →
+same sample).
+
+### classifier vs generative
+
+|  | classifier | generative |
+|---|---|---|
+| input | data | randomness |
+| output | a label | new data |
+| evaluate with | accuracy on test data | do the samples look right |
+| **examples** | **MLP** | **VAE, GAN, flow matching, diffusion** |
+
 ---
 ## Flow matching - Phase 2
 default things in every PyTorch training loop
@@ -70,7 +92,7 @@ loss.backward()           # backward: compute gradients
 optimizer.step()          # update the weights
 ```
 
-**1st Result — verification gate FAILS.**
+### 1st Result — verification gate FAILS
 
 | check | value |
 |---|---|
@@ -106,24 +128,3 @@ x = x / x.sum(dim=1, keepdim=True)
 ---
 ## Diffusion - Phase 0 (noise)
 
-### what's noise
-
-noise is composed of random numbers with the same shape as x. 
-
-- at training: `x_t = (1-t)*noise + t*data` blends the training data and noise. `t` represents how far along the path from noise to data, 0 for pure noise and 1 for pure data. And `t` is random for each batch
-- at sampling: this provides somewhere to start, and the trained model steps it all the way to a digit. No learning happens here (weights are frozen). `t` walks 0 → 1 in 100 equal steps (`dt = 1/100`)
-
-### why noise at all:
-
-you want *new* digits. A model that only maps digits to digits could never produce one that doesn't already exist. **Randomness is the
-source of novelty**, and it's why every sample comes out different (same seed →
-same sample).
-
-### classifier vs generative
-
-|  | classifier | generative |
-|---|---|---|
-| input | data | randomness |
-| output | a label | new data |
-| evaluate with | accuracy on test data | do the samples look right |
-| examples | MLP | VAE, GAN, flow matching, diffusion |
