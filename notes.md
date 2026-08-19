@@ -190,21 +190,25 @@ with torch.no_grad():           # turns gradient tracking back on afterwards
 ## Diffusion - Phase 2
 
 ### compare output images from VAE, GAN, flow matching, diffusion
+**[Overview of different types of generative models](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/)**
+
+<img width="925" height="639" alt="Screenshot 2026-08-19 at 13 57 51" src="https://github.com/user-attachments/assets/9b60c7ba-db41-44df-8fd2-c552d6b0a2df" />
+
 **VAE**
 
-<img width="100%" alt="VAE samples" src="https://github.com/user-attachments/assets/e1d96946-16fa-4330-8347-a7d7eb486834" />
+<img width="60%" alt="VAE samples" src="https://github.com/user-attachments/assets/e1d96946-16fa-4330-8347-a7d7eb486834" />
 
 **GAN**
 
-<img width="100%" alt="GAN samples" src="https://github.com/user-attachments/assets/7c1e1487-17c5-40f7-8d85-6e607195c9e2" />
+<img width="60%" alt="GAN samples" src="https://github.com/user-attachments/assets/7c1e1487-17c5-40f7-8d85-6e607195c9e2" />
 
 **flow matching**
 
-<img width="100%" alt="Flow matching samples" src="https://github.com/user-attachments/assets/75af47f4-82bb-4c16-a9d8-05ec7afeff53" />
+<img width="60%" alt="Flow matching samples" src="https://github.com/user-attachments/assets/75af47f4-82bb-4c16-a9d8-05ec7afeff53" />
 
 **diffusion**
 
-<img width="100%" alt="Diffusion samples" src="https://github.com/user-attachments/assets/9a00ebc6-b3fe-4f07-9532-7bde5507bfcd" />
+<img width="60%" alt="Diffusion samples" src="https://github.com/user-attachments/assets/9a00ebc6-b3fe-4f07-9532-7bde5507bfcd" />
 
 | | starts from | task |
 |---|---|---|
