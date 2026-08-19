@@ -158,6 +158,17 @@ Same journey. One drawn as a line, one built from small steps.
 | deterministic (Same input always gives the same output)? | yes (because it adds nothing random) | no (injects randomness 1000 times) |
 | steps | 100 (the path is straight, so big steps are fine) | 1000 (built as 1000 tiny noise-additions, so it undoes them in 1000 tiny steps)|
 
+### when to use `with`
+```python
+with open('file.txt') as f:     # closes the file afterwards
+    data = f.read()
+
+with torch.no_grad():           # turns gradient tracking back on afterwards
+    ...
+```
+
+`with` = do this setup, run my block, then guarantee the cleanup happens.
+
 ---
 ## Diffusion - Phase 2
 
