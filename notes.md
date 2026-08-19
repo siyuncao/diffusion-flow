@@ -158,6 +158,23 @@ Same journey. One drawn as a line, one built from small steps.
 | deterministic (Same input always gives the same output)? | yes (because it adds nothing random) | no (injects randomness 1000 times) |
 | steps | 100 (the path is straight, so big steps are fine) | 1000 (built as 1000 tiny noise-additions, so it undoes them in 1000 tiny steps)|
 
+**Q: You can estimate x₀ in one line. Why take 1000 steps instead of returning it?**
+You only have a local guess. At t=999 the estimate is a blurry average of all
+digits. It only sharpens as `x_t` gets cleaner.
+
+```python
+x₀ = (x - (1 - ab).sqrt() * eps) / ab.sqrt()   # the estimate — don't trust it yet
+```
+
+**Q: So what do you do with the estimate?**
+Take your estimated x₀, and run the forward process on it to noise level t−1.
+(Keeping the noise already in `x_t`, adding only the difference.)
+
+```python
+x = (x - (1 - a) / (1 - ab).sqrt() * eps) / a.sqrt()
+if i > 0:
+    x = x + betas[i].sqrt() * torch.randn_like(x)      # the difference
+```
 ### when to use `with`
 ```python
 with open('file.txt') as f:     # closes the file afterwards
