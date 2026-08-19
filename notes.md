@@ -218,3 +218,5 @@ with torch.no_grad():           # turns gradient tracking back on afterwards
 |---|---|---|
 | steps at sampling | 100 | 1000 |
 | sampling time, 16 images | 0.26s | 2.35s |
+
+sampling time explain: diffusion is 9.0× slower for 10× the steps — near-linear, as the step count predicts.
