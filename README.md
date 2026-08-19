@@ -16,7 +16,7 @@ diffusion-flow/
 ├── flow_mnist.py         # flow matching, UNet + Euler sampler
 ├── flow_simplex.py       # flow matching, MLP + simplex projection
 ├── diffusion_mnist.py    # DDPM, same UNet as flow_mnist.py
-└── benchmark.py          # benchmark across VAE, GAN, flow matching, diffusion
+└── benchmark_mnist.py          # benchmark across VAE, GAN, flow matching, diffusion
 ```
 
 ## The architecture ladder
