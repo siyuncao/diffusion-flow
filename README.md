@@ -15,7 +15,8 @@ diffusion-flow/
 ├── plan_diffusion.md     # what diffusion set out to do
 ├── flow_mnist.py         # flow matching, UNet + Euler sampler
 ├── flow_simplex.py       # flow matching, MLP + simplex projection
-└── diffusion_mnist.py    # DDPM, same UNet as flow_mnist.py
+├── diffusion_mnist.py    # DDPM, same UNet as flow_mnist.py
+└── benchmark.py          # benchmark across VAE, GAN, flow matching, diffusion
 ```
 
 ## The architecture ladder
@@ -68,9 +69,15 @@ gives the same guarantee and keeps the learned spread.
 **The means matched in all three cases.** A check that only compared means
 would have passed the collapsed run.
 
+## All four (VAE, GAN, flow matching, diffusion), one matched setup
 
-## Reading
+`benchmark_mnist.py`.
 
-- Lilian Weng, [What are Diffusion Models?](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/) — the clearest derivation
-- Ho et al. 2020, [DDPM](https://arxiv.org/abs/2006.11239) — §3 is what `diffusion_mnist.py` implements
-- Lipman et al. 2022, [Flow Matching](https://arxiv.org/abs/2210.02747) — reads best *after* diffusion, since its pitch is "diffusion but simpler"
+| model | params | steps | sec/1000 | confidence | entropy |
+|---|---|---|---|---|---|
+| real MNIST (ref) | — | — | — | 0.9777 | 2.2938 |
+| VAE (prior sample) | 320,804 | 1 | <0.01 | 0.7263 | 2.1813 |
+| GAN | 114,064 | 1 | <0.01 | 0.7732 | 2.0913 |
+| flow (Euler 100) | 1,882,561 | 100 | 15.61 | 0.8815 | 2.2498 |
+| diffusion (DDPM 1000) | 1,882,561 | 1000 | 157.42 | 0.8666 | 2.2442 |
+| diffusion (DDIM 50) | 1,882,561 | 50 | 7.78 | 0.8542 | 2.2375 |
