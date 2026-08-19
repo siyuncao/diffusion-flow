@@ -81,13 +81,13 @@ for epoch in range(20):
 
 # 6. DDPM sampler
 x = torch.randn(16, 1, 28, 28, device=device)
-with torch.no_grad():
+with torch.no_grad(): # `with`: do this setup, run my block, then guarantee the cleanup happens
+                      # here it means: don't track gradients in here
     for i in reversed(range(T)):
-        t  = torch.full((16,), i, device=device)
-        tf = (t.float() / T).view(-1, 1, 1, 1)
-        eps = model(x, tf)
-
-        a, ab = alphas[i], alpha_bar[i]
+        t = torch.full((16, 1, 1, 1), i / T, device=device)
+        eps = model(x, t) # prediction of the noise in the current x
+        a  = alphas[i]
+        ab = alpha_bar[i]
         x = (x - (1 - a) / (1 - ab).sqrt() * eps) / a.sqrt()
 
         if i > 0:
