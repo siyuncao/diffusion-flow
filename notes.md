@@ -212,3 +212,9 @@ with torch.no_grad():           # turns gradient tracking back on afterwards
 | GAN | random vector | generate from scratch |
 | flow matching | noise | generate from scratch |
 | diffusion | noise | generate from scratch |
+
+### compare flow matching to diffusion
+| | flow matching | diffusion |
+|---|---|---|
+| steps at sampling | 100 | 1000 |
+| sampling time, 16 images | 0.26s | 2.35s |
