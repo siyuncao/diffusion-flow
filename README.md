@@ -7,6 +7,7 @@ A learning project.
 
 ## Files
 
+```
 diffusion-flow/
 ├── README.md
 ├── notes.md              # derivations, diagnoses, comparisons
@@ -15,6 +16,7 @@ diffusion-flow/
 ├── flow_mnist.py         # flow matching, UNet + Euler sampler
 ├── flow_simplex.py       # flow matching, MLP + simplex projection
 └── diffusion_mnist.py    # DDPM, same UNet as flow_mnist.py
+```
 
 ## The architecture ladder
 
