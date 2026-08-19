@@ -1,6 +1,5 @@
 # Note
 
-
 ## Flow matching - Phase 1
 ### Data loader: transform explained
 ```python
@@ -189,34 +188,6 @@ with torch.no_grad():           # turns gradient tracking back on afterwards
 ---
 ## Diffusion - Phase 2
 
-### compare output images from VAE, GAN, flow matching, diffusion
-**[Overview of different types of generative models](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/)**
-
-<img width="925" height="639" alt="Screenshot 2026-08-19 at 13 57 51" src="https://github.com/user-attachments/assets/9b60c7ba-db41-44df-8fd2-c552d6b0a2df" />
-
-**VAE**
-
-<img width="60%" alt="VAE samples" src="https://github.com/user-attachments/assets/e1d96946-16fa-4330-8347-a7d7eb486834" />
-
-**GAN**
-
-<img width="60%" alt="GAN samples" src="https://github.com/user-attachments/assets/7c1e1487-17c5-40f7-8d85-6e607195c9e2" />
-
-**flow matching**
-
-<img width="60%" alt="Flow matching samples" src="https://github.com/user-attachments/assets/75af47f4-82bb-4c16-a9d8-05ec7afeff53" />
-
-**diffusion**
-
-<img width="60%" alt="Diffusion samples" src="https://github.com/user-attachments/assets/9a00ebc6-b3fe-4f07-9532-7bde5507bfcd" />
-
-| | starts from | task |
-|---|---|---|
-| VAE (my run) | a real digit | reconstruct (sees the answer, so it's not a fair game) |
-| GAN | random vector | generate from scratch |
-| flow matching | noise | generate from scratch |
-| diffusion | noise | generate from scratch |
-
 ### compare flow matching to diffusion
 | | flow matching | diffusion |
 |---|---|---|
@@ -224,3 +195,88 @@ with torch.no_grad():           # turns gradient tracking back on afterwards
 | sampling time, 16 images | 0.26s | 2.35s |
 
 sampling time explain: diffusion is 9.0× slower for 10× the steps — near-linear, as the step count predicts.
+
+### Fair benchmark of VAE, GAN, flow matching, diffusion
+
+see code at `benchmark_mnist.py`
+
+**[Overview of different types of generative models](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/)**
+
+<img width="925" height="639" alt="Screenshot 2026-08-19 at 13 57 51" src="https://github.com/user-attachments/assets/9b60c7ba-db41-44df-8fd2-c552d6b0a2df" />
+
+**judge**
+
+A small CNN classifier trained on real MNIST only, then frozen.
+
+```python
+class Classifier(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),   # 14
+            nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),  # 7
+            nn.Flatten(),
+            nn.Linear(64 * 7 * 7, 128), nn.ReLU(),
+            nn.Linear(128, 10),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+```
+
+**benchmark**
+
+| model | params | steps | sec/1000 | confidence | entropy |
+|---|---|---|---|---|---|
+| real MNIST (ref) | — | — | — | 0.9777 | 2.2938 |
+| VAE (prior sample) | 320,804 | 1 | <0.01 | 0.7263 | 2.1813 |
+| GAN | 114,064 | 1 | <0.01 | 0.7732 | 2.0913 |
+| flow (Euler 100) | 1,882,561 | 100 | 15.61 | 0.8815 | 2.2498 |
+| diffusion (DDPM 1000) | 1,882,561 | 1000 | 157.42 | 0.8666 | 2.2442 |
+| diffusion (DDIM 50) | 1,882,561 | 50 | 7.78 | 0.8542 | 2.2375 |
+
+- confidence = mean max-softmax from the judge (98.5% test acc).
+- entropy = spread over the 10 predicted classes; uniform is ln(10) = 2.3026.
+
+**equivalence conditions for diffusion and flow matching** 
+
+Delete the re-noising line from DDPM and it becomes a deterministic ODE solver — the same *kind* of object as
+the Euler sampler. It then inherits flow matching's tolerance for big steps:
+20× fewer steps, 20× faster, quality essentially unchanged (0.8542 vs 0.8666).
+What still differs is the path shape — flow matching's is straight by
+construction, diffusion's is curved by `alpha_bar`.
+
+Determinism, exact:
+- DDIM, two runs from same `x_T`: 0.000e+00
+- flow, two runs from same `x_T`: 0.000e+00
+- DDPM, two runs from same `x_T`: 2.128e+00
+
+**Caveats.**
+- The UNet models carry 1.88M params vs the VAE's 0.32M and GAN's 0.11M (6× and
+  16×). "Flow matching wins on quality" is partly a capacity story.
+- DDIM being faster than flow is 50 steps vs 100 on an identical network, not
+  diffusion being faster. At matched steps they'd be close.
+- VAE and GAN sample in one forward pass — <0.01s vs 15.61s. That speed gap is
+  the real reason GANs still get used.
+- Nothing reaches real MNIST (0.9777). The gap is 20 epochs on a free T4.
+
+**When to use which model**
+
+The quality column can't decide it here in my benchmark. My UNet models had 16× the GAN's
+parameters, so method and capacity are confounded. Speed decides instead since the
+gap is 1000× and doesn't depend on model size.
+
+| | when to pick it |
+|---|---|
+| **GAN** | you need one-step generation. <0.01s vs 15.61s is a 1000× gap. Real-time, interactive, on-device. |
+| **flow matching** | default for new work. Best quality here, fewer steps than DDPM, simplest training objective. |
+| **diffusion** | when you want the ecosystem — pretrained weights, tooling, papers to borrow from. And use DDIM, not DDPM. |
+| **VAE** | not as a generator. As a component — compress to a latent, then run diffusion there. That's Stable Diffusion. |
+
+Flow matching and diffusion are the same family, so pick on ecosystem and step
+count, not quality. GAN is a genuinely different trade: worse and less stable,
+but a thousand times faster.
+
+What this table can't settle is whether the quality gap holds at scale — my
+comparison is confounded by parameter count (1.88M vs 0.11M). For that, the
+literature: diffusion and flow matching win on quality at scale, comfortably.
