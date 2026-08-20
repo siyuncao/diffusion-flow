@@ -71,7 +71,7 @@ would have passed the collapsed run.
 
 ## All four (VAE, GAN, flow matching, diffusion), one matched setup
 
-`benchmark_mnist.py`.
+`benchmark_mnist.py` - written by Claude Code. 
 
 | model | params | steps | sec/1000 | confidence | entropy |
 |---|---|---|---|---|---|
