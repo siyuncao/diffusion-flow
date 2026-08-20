@@ -235,8 +235,8 @@ class Classifier(nn.Module):
 | diffusion (DDPM 1000) | 1,882,561 | 1000 | 157.42 | 0.8666 | 2.2442 |
 | diffusion (DDIM 50) | 1,882,561 | 50 | 7.78 | 0.8542 | 2.2375 |
 
-- confidence = mean max-softmax from the judge (98.5% test acc).
-- entropy = spread over the 10 predicted classes; uniform is ln(10) = 2.3026.
+- confidence = mean max-softmax from the judge (98.5% test acc). Essentially asking whether each image look like some digit.
+- entropy = spread over the 10 predicted classes; measures variety across the ten digits — and you want variety, because a model that only ever makes 5s is broken.
 
 **equivalence conditions for diffusion and flow matching** 
 
